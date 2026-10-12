@@ -53,9 +53,11 @@ class PartyGameEngine {
     this.renderBottleWheel();
     this.showTab(this.activeTab);
 
-    // If no players, provide easy quickstart or welcome
-    if (this.players.length === 0) {
+    // Only auto-populate sample players on very first visit ever
+    const hasInitialized = localStorage.getItem('party_game_has_initialized');
+    if (!hasInitialized) {
       this.populateSamplePlayers();
+      localStorage.setItem('party_game_has_initialized', 'true');
     }
   }
 
