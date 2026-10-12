@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Vibes & Dares - All-In-One Party Games</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Main Top Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <span class="logo-icon">🔥</span>
+        <div class="logo-text">
+          <h1>Vibes & Dares</h1>
+          <p>All-In-One Party Game Suite</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="sound-toggle" class="btn-icon-pill" title="Toggle Sound">
+          <span class="icon">🔊</span>
+          <span>Sound</span>
+        </button>
+        <button id="btn-scoreboard-open" class="btn-icon-pill" title="View Scoreboard">
+          <span>🏆</span>
+        </button>
+        <button id="btn-add-custom-modal-open" class="btn-icon-pill" title="Add Custom Question">
+          <span>➕</span>
+        </button>
+        <button id="btn-rules-open" class="btn-icon-pill" title="How to Play">
+          <span>❓</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-bar">
+      <button class="nav-tab active" data-target="truth-or-dare">
+        <span class="tab-icon">🎭</span>
+        <span>Truth or Dare</span>
+      </button>
+      <button class="nav-tab" data-target="get-to-know">
+        <span class="tab-icon">💬</span>
+        <span>Get to Know</span>
+      </button>
+      <button class="nav-tab" data-target="spin-bottle">
+        <span class="tab-icon">🍾</span>
+        <span>Spin Bottle</span>
+      </button>
+      <button class="nav-tab" data-target="players">
+        <span class="tab-icon">👥</span>
+        <span>Players</span>
+      </button>
+    </nav>
+
+    <!-- ====================================================== -->
+    <!-- TAB 1: TRUTH OR DARE                                    -->
+    <!-- ====================================================== -->
+    <section id="tab-truth-or-dare" class="tab-view">
+      <!-- Active Player Turn Banner -->
+      <div class="active-turn-banner">
+        <div class="active-turn-left">
+          <div id="tod-active-player-avatar" class="active-turn-avatar">😎</div>
+          <div>
+            <div class="turn-subtitle">Current Player's Turn</div>
+            <div id="tod-active-player-name" class="turn-player-name">Player 1</div>
+          </div>
+        </div>
+        <div id="tod-active-player-gender" class="gender-pill male">♂ Male</div>
+      </div>
+
+      <!-- Level Filter Bar -->
+      <div class="filter-bar-wrapper">
+        <span class="filter-bar-label">Choose Intensity Level:</span>
+        <div class="pill-group">
+          <button class="filter-pill active tod-level-btn" data-level="all">🌈 All Levels</button>
+          <button class="filter-pill classic tod-level-btn" data-level="classic">🟢 Classic (Chill)</button>
+          <button class="filter-pill party tod-level-btn" data-level="party">🟡 Party (Wild)</button>
+          <button class="filter-pill spicy tod-level-btn" data-level="spicy">🔴 Spicy (Couples)</button>
+          <button class="filter-pill extreme tod-level-btn" data-level="extreme">🟣 Extreme (Savage)</button>
+        </div>
+      </div>
+
+      <!-- Choice Buttons -->
+      <div class="tod-choice-grid">
+        <button id="btn-pick-truth" class="btn-choice truth">
+          <span>🎭 TRUTH</span>
+          <span class="choice-desc">Reveal a secret</span>
+        </button>
+        <button id="btn-pick-dare" class="btn-choice dare">
+          <span>⚡ DARE</span>
+          <span class="choice-desc">Take the challenge</span>
+        </button>
+      </div>
+      <button id="btn-pick-random" class="btn-random-choice">🎲 Surprise Me (Random Choice)</button>
+
+      <!-- Question Card Area -->
+      <div class="card-container">
+        <!-- Placeholder when card not drawn -->
+        <div id="tod-card-placeholder" class="placeholder-card">
+          <span class="placeholder-icon">🃏</span>
+          <h3>Ready for your turn?</h3>
+          <p>Select <b>TRUTH</b> or <b>DARE</b> above to reveal your question!</p>
+        </div>
+
+        <!-- Rendered Card -->
+        <div id="tod-card-wrapper" class="card-display hidden">
+          <div class="card-header-tags">
+            <span id="tod-card-type-badge" class="card-badge type-truth">TRUTH</span>
+            <span id="tod-card-level-badge" class="card-badge level-classic">CLASSIC</span>
+          </div>
+          <p id="tod-card-text" class="card-content-text">Question loading...</p>
+        </div>
+      </div>
+
+      <!-- Turn Action Controls -->
+      <div id="tod-actions" class="card-actions-grid hidden">
+        <button id="btn-tod-complete" class="btn-action success">
+          <span>✓</span> Done (+10 pts)
+        </button>
+        <button id="btn-tod-chicken" class="btn-action danger">
+          <span>🐔</span> Chicken Out (-5 pts)
+        </button>
+        <button id="btn-tod-reroll" class="btn-action secondary">
+          <span>🔄</span> Swap Question
+        </button>
+        <button id="btn-tod-next-player" class="btn-action primary">
+          <span>➡️</span> Next Player
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- TAB 2: GET TO KNOW YOU                                  -->
+    <!-- ====================================================== -->
+    <section id="tab-get-to-know" class="tab-view hidden">
+      <!-- Active Player Turn Banner -->
+      <div class="active-turn-banner">
+        <div class="active-turn-left">
+          <div id="gtk-active-player-avatar" class="active-turn-avatar">😎</div>
+          <div>
+            <div class="turn-subtitle">Answering Player</div>
+            <div id="gtk-active-player-name" class="turn-player-name">Player 1</div>
+          </div>
+        </div>
+        <!-- Mode Switch: Hot Seat vs Whole Room -->
+        <div class="gtk-mode-toggle">
+          <button id="gtk-mode-player-btn" class="gtk-mode-btn active">👤 Hot Seat</button>
+          <button id="gtk-mode-room-btn" class="gtk-mode-btn">👥 All Room</button>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="filter-bar-wrapper">
+        <span class="filter-bar-label">Question Category:</span>
+        <div class="pill-group">
+          <button class="filter-pill active gtk-cat-btn" data-category="all">🌟 All Categories</button>
+          <button class="filter-pill gtk-cat-btn" data-category="icebreaker">❄️ Icebreaker & Fun</button>
+          <button class="filter-pill gtk-cat-btn" data-category="deep">🌌 Deep & Soulful</button>
+          <button class="filter-pill gtk-cat-btn" data-category="relationships">❤️ Love & Dating</button>
+          <button class="filter-pill gtk-cat-btn" data-category="hypothetical">🌀 Hypotheticals</button>
+          <button class="filter-pill gtk-cat-btn" data-category="hot_takes">🔥 Hot Takes</button>
+        </div>
+      </div>
+
+      <!-- Draw Card Button -->
+      <button id="btn-draw-gtk" class="btn-draw-large">
+        <span>🃏</span> Draw a Question
+      </button>
+
+      <!-- Question Card Area -->
+      <div class="card-container">
+        <div id="gtk-card-placeholder" class="placeholder-card">
+          <span class="placeholder-icon">💬</span>
+          <h3>Get the conversation rolling</h3>
+          <p>Tap <b>Draw a Question</b> to explore 220+ deep, funny, and unexpected topics!</p>
+        </div>
+
+        <div id="gtk-card-wrapper" class="card-display hidden">
+          <div class="card-header-tags">
+            <span id="gtk-card-cat-badge" class="card-badge cat-icebreaker">ICEBREAKER</span>
+          </div>
+          <p id="gtk-card-text" class="card-content-text">Question text will appear here...</p>
+        </div>
+      </div>
+
+      <!-- Action Controls -->
+      <div id="gtk-actions" class="card-actions-grid hidden">
+        <button id="btn-gtk-next-card" class="btn-action secondary full-width">
+          <span>🔄</span> Another Question
+        </button>
+        <button id="btn-gtk-next-player" class="btn-action primary full-width">
+          <span>➡️</span> Pass to Next Player
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- TAB 3: SPIN THE BOTTLE                                  -->
+    <!-- ====================================================== -->
+    <section id="tab-spin-bottle" class="tab-view hidden">
+      <div class="bottle-section">
+        <div class="filter-bar-label text-center">Tap the bottle or press the spin button!</div>
+        <div class="bottle-canvas-wrapper">
+          <canvas id="bottle-canvas"></canvas>
+        </div>
+        <button id="btn-spin-bottle" class="btn-spin-large">
+          <span>🍾</span> SPIN THE BOTTLE!
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- TAB 4: PLAYERS & GENDERS                                -->
+    <!-- ====================================================== -->
+    <section id="tab-players" class="tab-view hidden">
+      <!-- Add Player Card -->
+      <div class="player-input-card">
+        <h3 style="font-size: 1.05rem; font-weight: 700;">Add New Player</h3>
+        <form id="player-form">
+          <div class="input-row">
+            <input 
+              type="text" 
+              id="player-name-input" 
+              class="text-input" 
+              placeholder="Player Name (e.g. Maya, David)" 
+              required
+              maxlength="20"
+            />
+            <select id="player-gender-select" class="select-input">
+              <option value="female">👧 Female (♀)</option>
+              <option value="male">👦 Male (♂)</option>
+            </select>
+            <select id="player-avatar-select" class="select-input" style="max-width: 80px;">
+              <option value="👩">👩</option>
+              <option value="👨">👨</option>
+              <option value="👧">👧</option>
+              <option value="👦">👦</option>
+              <option value="👱‍♀️">👱‍♀️</option>
+              <option value="👱‍♂️">👱‍♂️</option>
+              <option value="👩‍🦰">👩‍🦰</option>
+              <option value="🧔">🧔</option>
+              <option value="😎">😎</option>
+              <option value="🥳">🥳</option>
+              <option value="👑">👑</option>
+              <option value="🔥">🔥</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-add-player" style="width: 100%; margin-top: 10px;">
+            <span>➕</span> Add Player to Game
+          </button>
+        </form>
+      </div>
+
+      <!-- Quick Setup Helpers -->
+      <div class="quick-actions-row">
+        <button id="load-sample-players-btn" class="btn-action secondary" style="flex: 1; font-size: 0.8rem;">
+          ⚡ Load Sample Party (4 Players)
+        </button>
+        <button id="clear-all-players-btn" class="btn-action danger" style="font-size: 0.8rem;">
+          🗑️ Clear All
+        </button>
+      </div>
+
+      <!-- Player List -->
+      <div class="players-header-row">
+        <h3 style="font-size: 1rem; font-weight: 700;">Active Party Roster</h3>
+        <span id="player-count-badge" class="player-count-pill">0 Players</span>
+      </div>
+
+      <div id="players-list-container" class="players-list-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- MODAL 1: BOTTLE RESULT PICKED                           -->
+    <!-- ====================================================== -->
+    <div id="bottle-result-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>The Bottle Has Chosen!</h2>
+          <button id="btn-bottle-close-modal" class="modal-close-btn">✕</button>
+        </div>
+        <div class="bottle-result-content">
+          <div id="bottle-result-avatar" class="bottle-result-avatar">😎</div>
+          <div id="bottle-result-name" class="bottle-result-name">Alex</div>
+          <div id="bottle-result-gender" class="gender-pill male">♂ Male</div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
+            It's your turn in the spotlight! What will the room challenge you to?
+          </p>
+        </div>
+        <div class="card-actions-grid">
+          <button id="btn-bottle-play-tod" class="btn-action primary">
+            <span>🎭</span> Truth or Dare
+          </button>
+          <button id="btn-bottle-play-gtk" class="btn-action success">
+            <span>💬</span> Get To Know You
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- MODAL 2: ADD CUSTOM QUESTION                            -->
+    <!-- ====================================================== -->
+    <div id="custom-question-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>Add Custom Question</h2>
+          <button id="btn-close-custom-modal" class="modal-close-btn">✕</button>
+        </div>
+        <form id="custom-question-form" style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Game Mode:</label>
+            <select id="custom-game-type" class="select-input" style="width: 100%; margin-top: 4px;">
+              <option value="tod">🎭 Truth or Dare</option>
+              <option value="gtk">💬 Get to Know You</option>
+            </select>
+          </div>
+          <div id="custom-subcategory-group">
+            <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Intensity / Category:</label>
+            <select id="custom-subcategory-select" class="select-input" style="width: 100%; margin-top: 4px;">
+              <option value="classic">Level 1: Classic (Chill)</option>
+              <option value="party">Level 2: Party (Goofy)</option>
+              <option value="spicy">Level 3: Spicy (Romantic / Flirty)</option>
+              <option value="extreme">Level 4: Extreme (Savage)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Question Text:</label>
+            <textarea 
+              id="custom-question-text" 
+              class="text-input" 
+              rows="3" 
+              placeholder="Type your question... (Tip: use {target} or {target_opposite} to involve someone!)"
+              style="width: 100%; margin-top: 4px; resize: vertical;"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn-action primary" style="width: 100%; margin-top: 8px;">
+            Save & Add to Deck
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- MODAL 3: SCOREBOARD & LEADERBOARD                       -->
+    <!-- ====================================================== -->
+    <div id="scoreboard-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>🏆 Party Leaderboard</h2>
+          <button id="btn-close-scoreboard" class="modal-close-btn">✕</button>
+        </div>
+        <div id="scoreboard-list" class="scoreboard-list">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- MODAL 4: RULES & HOW TO PLAY                            -->
+    <!-- ====================================================== -->
+    <div id="rules-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>Game Rules & Guide</h2>
+          <button id="btn-close-rules" class="modal-close-btn">✕</button>
+        </div>
+        <div class="rules-content">
+          <h3>👥 Player & Gender Awareness</h3>
+          <p>
+            When adding players, set their name and gender (<b>Male</b> or <b>Female</b>). The game automatically customizes pronouns and couples/flirty challenges so prompts like "kiss {target_opposite} on the cheek" or "sit on {target}'s lap" adapt intelligently!
+          </p>
+          <h3>🎭 Truth or Dare (240+ Questions)</h3>
+          <ul>
+            <li><b>🟢 Classic:</b> Safe, fun, friendly icebreakers for any group.</li>
+            <li><b>🟡 Party:</b> Funny, wild, goofy dares and mildly embarrassing truths.</li>
+            <li><b>🔴 Spicy:</b> Romantic, flirty, crush and couple challenges.</li>
+            <li><b>🟣 Extreme:</b> Savage, bold, unfiltered challenges.</li>
+            <li><b>Scoring:</b> Complete a challenge for <b>+10 points</b>. Chicken out for <b>-5 points</b>.</li>
+          </ul>
+          <h3>💬 Get to Know You (225+ Questions)</h3>
+          <p>
+            Explore 5 categories: <i>Icebreaker</i>, <i>Deep & Soulful</i>, <i>Love & Dating</i>, <i>Hypotheticals</i>, and <i>Hot Takes</i>. Play in <b>Hot Seat</b> mode (directed to one player) or <b>All Room</b> mode where everyone takes turns answering.
+          </p>
+          <h3>🍾 Spin the Bottle</h3>
+          <p>
+            Gather your friends and tap the bottle to spin with realistic physics. The selected player immediately steps up for a Truth, Dare, or Question!
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="data-truth-or-dare.js"></script>
+  <script src="data-get-to-know-you.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
