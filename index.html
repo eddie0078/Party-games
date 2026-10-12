@@ -21,6 +21,10 @@
         </div>
       </div>
       <div class="header-actions">
+        <button id="btn-room-modal-open" class="btn-icon-pill room-pill" title="Live Multiplayer Room">
+          <span class="room-indicator-dot"></span>
+          <span id="room-btn-text">📡 Live Room</span>
+        </button>
         <button id="sound-toggle" class="btn-icon-pill" title="Toggle Sound">
           <span class="icon">🔊</span>
           <span>Sound</span>
@@ -398,9 +402,121 @@
       </div>
     </div>
 
+    <!-- ====================================================== -->
+    <!-- MODAL 5: REAL-TIME ROOM SYNC (HOST / JOIN)              -->
+    <!-- ====================================================== -->
+    <div id="room-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>📡 Real-Time Multiplayer Room</h2>
+          <button id="btn-close-room-modal" class="modal-close-btn">✕</button>
+        </div>
+
+        <!-- Section A: When NOT connected to a room -->
+        <div id="room-unconnected-view">
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
+            Play together across phones in real-time! Create a room and invite your friends, or enter a room code to join.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Host button -->
+            <button id="btn-host-new-room" class="btn-draw-large" style="width: 100%;">
+              <span>👑</span> Create & Host New Room
+            </button>
+
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 700;">
+              ── OR JOIN A FRIEND'S ROOM ──
+            </div>
+
+            <!-- Join room box -->
+            <div style="background: rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 16px; border: 1px solid var(--card-border); display: flex; flex-direction: column; gap: 10px;">
+              <div>
+                <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Room Code (4 Digits):</label>
+                <input 
+                  type="text" 
+                  id="join-room-code-input" 
+                  class="text-input" 
+                  placeholder="e.g. 7842" 
+                  maxlength="6"
+                  style="width: 100%; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; text-align: center; font-size: 1.1rem; margin-top: 4px;"
+                />
+              </div>
+
+              <div>
+                <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Your Name:</label>
+                <input 
+                  type="text" 
+                  id="join-player-name-input" 
+                  class="text-input" 
+                  placeholder="Your Name (e.g. Leo)" 
+                  maxlength="16"
+                  style="width: 100%; margin-top: 4px;"
+                />
+              </div>
+
+              <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                  <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Gender:</label>
+                  <select id="join-player-gender-select" class="select-input" style="width: 100%; margin-top: 4px;">
+                    <option value="female">👧 Female (♀)</option>
+                    <option value="male">👦 Male (♂)</option>
+                  </select>
+                </div>
+                <div style="width: 80px;">
+                  <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Avatar:</label>
+                  <select id="join-player-avatar-select" class="select-input" style="width: 100%; margin-top: 4px;">
+                    <option value="👩">👩</option>
+                    <option value="👨">👨</option>
+                    <option value="👧">👧</option>
+                    <option value="👦">👦</option>
+                    <option value="😎">😎</option>
+                    <option value="🥳">🥳</option>
+                    <option value="👑">👑</option>
+                    <option value="🔥">🔥</option>
+                  </select>
+                </div>
+              </div>
+
+              <button id="btn-submit-join-room" class="btn-action primary" style="width: 100%; margin-top: 4px;">
+                <span>🚀</span> Join Room
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section B: When CONNECTED to a room -->
+        <div id="room-connected-view" class="hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="text-align: center; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 16px;">
+            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">● Live Connected Room</div>
+            <div id="connected-room-code-display" style="font-size: 2.2rem; font-weight: 900; letter-spacing: 4px; color: #ffffff; margin: 4px 0;">7842</div>
+            <div id="connected-room-role-badge" style="font-size: 0.75rem; color: var(--text-muted);">You are: Host 👑</div>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button id="btn-copy-room-link" class="btn-action primary" style="flex: 1;">
+              <span>🔗</span> Copy Invite Link
+            </button>
+            <button id="btn-share-room-link" class="btn-action secondary">
+              <span>📲</span> Share
+            </button>
+          </div>
+
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Connected Party Players:</div>
+            <div id="room-connected-players-list" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+          </div>
+
+          <button id="btn-leave-room" class="btn-action danger" style="width: 100%; margin-top: 8px;">
+            <span>🚪</span> Leave Room
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Application Scripts -->
+  <!-- Real-Time Multiplayer Broker & Application Scripts -->
+  <script src="https://unpkg.com/mqtt@5.3.5/dist/mqtt.min.js"></script>
   <script src="data-truth-or-dare.js"></script>
   <script src="data-get-to-know-you.js"></script>
   <script src="audio.js"></script>
